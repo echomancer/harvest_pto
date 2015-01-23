@@ -1,9 +1,15 @@
-%p#notice= notice
-
-%p
-  %b Name:
-  = @home.name
-
-= link_to 'Edit', edit_home_path(@home)
-\|
+%table.table-condensed
+  %tbody
+    %tr
+      %td PTO Total
+      %td#total 
+        = @total
+    %tr
+      %td PTO Used
+      %td#used  
+        = @used
+    %tr
+      %td PTO Left
+      %td#left  
+        = @left
 = link_to 'Back', homes_path

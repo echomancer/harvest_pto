@@ -5,6 +5,10 @@ class HomesController < ApplicationController
 
   def index
     @homes = Home.all
+    if @home.nil?
+      Home.create(name: "Shazzam")
+    end
+    @homes = Home.all
     respond_with(@homes)
   end
 
@@ -27,7 +31,27 @@ class HomesController < ApplicationController
   end
 
   def update
-    @home.update(home_params)
+    @total = 0
+    @used = 0
+    @left = 0
+    if params[:home].present?   # Is the login set
+      subdomain = home_params[:subdomain]
+      username = home_params[:username]
+      password = home_params[:password]
+
+      harvest = Harvest.hardy_client(subdomain: subdomain, username: username, password: password)
+
+      puts "Projects:"
+      harvest.time.trackable_projects.each do |project|
+        puts project 
+        time = Time.new
+        #entries = harvest.reports.time_by_project(project.id, Time.parse("01/01/#{time.year}"), Time.parse("#{time.month}/#{time.day}/#{time.year}"))
+        entries = harvest.reports.time_by_project(project.id, Time.parse("12/01/2014"), Time.parse("12/31/2014"))
+        puts "Entries:"
+        entries.each {|e| p e}
+      end
+    end
+    #@home.update(home_params)
     respond_with(@home)
   end
 
@@ -42,6 +66,6 @@ class HomesController < ApplicationController
     end
 
     def home_params
-      params.require(:home).permit(:name)
+      params.require(:home).permit(:name,:subdomain,:username,:password)
     end
 end

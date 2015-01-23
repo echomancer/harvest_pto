@@ -1,8 +1,10 @@
 = simple_form_for(@home) do |f|
-  = f.error_notification
+	= f.error_notification
 
-  .form-inputs
-    = f.input :name
+	.form-inputs
+		= f.input :subdomain
+		= f.input :username
+		= f.input :password, as: :password
 
-  .form-actions
-    = f.button :submit
+	.form-actions
+		= f.submit "Calculate PTO", class: "btn"
