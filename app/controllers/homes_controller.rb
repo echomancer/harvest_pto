@@ -45,8 +45,9 @@ class HomesController < ApplicationController
       harvest.time.trackable_projects.each do |project|
         puts project 
         time = Time.new
-        #entries = harvest.reports.time_by_project(project.id, Time.parse("01/01/#{time.year}"), Time.parse("#{time.month}/#{time.day}/#{time.year}"))
-        entries = harvest.reports.time_by_project(project.id, Time.parse("12/01/2014"), Time.parse("12/31/2014"))
+        starty = Time.parse("01/01/#{time.year}")
+        endy = Time.parse("31/12/#{time.year}")
+        entries = harvest.reports.time_by_project(project.id, starty, endy) # Apparently can't be called by normal user
         puts "Entries:"
         entries.each {|e| p e}
       end
